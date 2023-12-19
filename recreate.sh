@@ -32,7 +32,9 @@ main() {
   local nextBranch="$5"
   local prevBranch="$6"
 
-  git rebase --onto $nextBranch $prevBranch test-branch
+  local targetBranch="$(git rev-parse --abbrev-ref HEAD)"
+
+  git rebase --onto $nextBranch $prevBranch $targetBranch
   local gitSha=$(git rev-parse HEAD)
   git push --force
   curl -L \
