@@ -34,6 +34,16 @@ main() {
 
   local targetBranch="$(git rev-parse --abbrev-ref HEAD)"
 
+  # make a change on next branch to ensure commit hashes change
+  git checkout $nextBranch
+  echo "a line" >> updates.txt
+  git add .
+  git commit -m "updates"
+  git push
+
+  git checkout $targetBranch
+
+  # switch what this branch is targeting.
   git rebase --onto $nextBranch $prevBranch $targetBranch
   local gitSha=$(git rev-parse HEAD)
   git push --force
