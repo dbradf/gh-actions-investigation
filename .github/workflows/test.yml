@@ -1,0 +1,26 @@
+name: Test
+on:
+  pull_request:
+    type: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: write
+  checks: write
+
+concurrency:
+  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.ref }}-${{ github.ref == 'refs/heads/main' && github.sha || ''}}
+  cancel-in-progress: true
+
+jobs:
+  long_running_task:
+    timeout-minutes: 7
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: sleep
+        run: sleep 120
