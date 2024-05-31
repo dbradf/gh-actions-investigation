@@ -47,6 +47,7 @@ main() {
   git rebase --onto $nextBranch $prevBranch $targetBranch
   local gitSha=$(git rev-parse HEAD)
   git push --force
+  sleep 5
   curl -L \
     -X PATCH \
     -H "Accept: application/vnd.github+json" \
